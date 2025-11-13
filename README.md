@@ -13,7 +13,7 @@ The workflow covers **data preprocessing, feature engineering, outlier handling,
 
 ## 📂 Dataset Overview
 
-* **Source:** Customer Churn Dataset
+* **Source:** WA_Fn-UseC_-Telco-Customer-Churn
 * **Rows:** 7043
 * **Columns:** 21 features + Target (`Churn`)
 * **Target Variable:** Churn (`Yes` = left, `No` = stayed)
