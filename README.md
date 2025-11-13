@@ -45,7 +45,6 @@ The workflow covers **data preprocessing, feature engineering, outlier handling,
 
 * Applied **Log Transformation** on all numeric features to reduce skewness.
 * Applied **IQR-based trimming** to limit extreme outliers.
-* Final numeric columns were suffixed with `_log_trim` for clarity.
 
 ---
 
