@@ -5,7 +5,7 @@
 
 ## 📝 Project Description
 
-This project focuses on predicting customer churn for a telecom company using the IBM Telco Customer Churn dataset. The goal is to identify customers likely to leave, allowing the company to take proactive retention actions.
+This project focuses on predicting customer churn using the Customer Churn dataset. The goal is to identify customers likely to leave, allowing the company to take proactive retention actions.
 
 The workflow covers **data preprocessing, feature engineering, outlier handling, feature selection, balancing, scaling, model training**, and **deployment** using Python and machine learning techniques.
 
@@ -13,7 +13,7 @@ The workflow covers **data preprocessing, feature engineering, outlier handling,
 
 ## 📂 Dataset Overview
 
-* **Source:** IBM Sample Telco Customer Churn Dataset
+* **Source:** Customer Churn Dataset
 * **Rows:** 7043
 * **Columns:** 21 features + Target (`Churn`)
 * **Target Variable:** Churn (`Yes` = left, `No` = stayed)
