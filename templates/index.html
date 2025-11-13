@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Churn Prediction</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f6fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    p {
+      text-align: center;
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px 25px;
+    }
+    .section-title {
+      grid-column: 1 / -1;
+      font-size: 18px;
+      font-weight: bold;
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+    input, select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background-color: #f9f9f9;
+    }
+    button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: linear-gradient(to right, #0056b3, #009acd);
+    }
+    .result-box {
+      grid-column: 1 / -1;
+      background: #e8f4ff;
+      border-left: 5px solid #007bff;
+      padding: 10px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    /* Simple modal style to replace alert() */
+    #infoModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    #infoModalContent {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        width: 90%;
+        /* Change for scrolling content: max-height and overflow-y */
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    #infoModalContent pre {
+        white-space: pre-wrap;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    #closeModal {
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #aaa;
+    }
+    #closeModal:hover {
+        color: #333;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🧾 Customer Churn Prediction</h1>
+    <p>Enter customer details below to predict churn likelihood.</p>
+
+    <form method="POST" action="/predict" id="churnForm">
+
+      <!-- Section 1 -->
+      <div class="section-title">Customer Information</div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="gender">
+          <option value="" {% if form_data.gender == "" or form_data.gender is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.gender == "Male" %}selected{% endif %}>Male</option>
+          <option {% if form_data.gender == "Female" %}selected{% endif %}>Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Senior Citizen (0 or 1)</label>
+        <input type="number" name="SeniorCitizen" min="0" max="1" placeholder="Enter 0 or 1" value="{{ form_data.SeniorCitizen if form_data.SeniorCitizen is defined }}">
+      </div>
+
+      <div class="form-group">
+        <label>Partner</label>
+        <select name="Partner">
+          <option value="" {% if form_data.Partner == "" or form_data.Partner is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.Partner == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.Partner == "No" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Dependents</label>
+        <select name="Dependents">
+          <option value="" {% if form_data.Dependents == "" or form_data.Dependents is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.Dependents == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.Dependents == "No" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="section-title">Services Subscribed</div>
+
+      <div class="form-group">
+        <label>Phone Service</label>
+        <select name="PhoneService">
+          <option value="" {% if form_data.PhoneService == "" or form_data.PhoneService is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.PhoneService == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.PhoneService == "No" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Multiple Lines</label>
+        <select name="MultipleLines">
+          <option value="" {% if form_data.MultipleLines == "" or form_data.MultipleLines is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.MultipleLines == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.MultipleLines == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.MultipleLines == "No phone service" %}selected{% endif %}>No phone service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Internet Service</label>
+        <select name="InternetService">
+          <option value="" {% if form_data.InternetService == "" or form_data.InternetService is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.InternetService == "DSL" %}selected{% endif %}>DSL</option>
+          <option {% if form_data.InternetService == "Fiber optic" %}selected{% endif %}>Fiber optic</option>
+          <option {% if form_data.InternetService == "No" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Online Security</label>
+        <select name="OnlineSecurity">
+          <option value="" {% if form_data.OnlineSecurity == "" or form_data.OnlineSecurity is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.OnlineSecurity == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.OnlineSecurity == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.OnlineSecurity == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Online Backup</label>
+        <select name="OnlineBackup">
+          <option value="" {% if form_data.OnlineBackup == "" or form_data.OnlineBackup is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.OnlineBackup == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.OnlineBackup == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.OnlineBackup == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Device Protection</label>
+        <select name="DeviceProtection">
+          <option value="" {% if form_data.DeviceProtection == "" or form_data.DeviceProtection is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.DeviceProtection == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.DeviceProtection == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.DeviceProtection == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tech Support</label>
+        <select name="TechSupport">
+          <option value="" {% if form_data.TechSupport == "" or form_data.TechSupport is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.TechSupport == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.TechSupport == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.TechSupport == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Streaming TV</label>
+        <select name="StreamingTV">
+          <option value="" {% if form_data.StreamingTV == "" or form_data.StreamingTV is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.StreamingTV == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.StreamingTV == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.StreamingTV == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Streaming Movies</label>
+        <select name="StreamingMovies">
+          <option value="" {% if form_data.StreamingMovies == "" or form_data.StreamingMovies is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.StreamingMovies == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.StreamingMovies == "No" %}selected{% endif %}>No</option>
+          <option {% if form_data.StreamingMovies == "No internet service" %}selected{% endif %}>No internet service</option>
+        </select>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="section-title">Billing & Contract</div>
+
+      <div class="form-group">
+        <label>Contract</label>
+        <select name="Contract">
+          <option value="" {% if form_data.Contract == "" or form_data.Contract is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.Contract == "Month-to-month" %}selected{% endif %}>Month-to-month</option>
+          <option {% if form_data.Contract == "One year" %}selected{% endif %}>One year</option>
+          <option {% if form_data.Contract == "Two year" %}selected{% endif %}>Two year</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Paperless Billing</label>
+        <select name="PaperlessBilling">
+          <option value="" {% if form_data.PaperlessBilling == "" or form_data.PaperlessBilling is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.PaperlessBilling == "Yes" %}selected{% endif %}>Yes</option>
+          <option {% if form_data.PaperlessBilling == "No" %}selected{% endif %}>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Payment Method</label>
+        <select name="PaymentMethod">
+          <option value="" {% if form_data.PaymentMethod == "" or form_data.PaymentMethod is not defined %}selected{% endif %}>Select</option>
+          <option {% if form_data.PaymentMethod == "Electronic check" %}selected{% endif %}>Electronic check</option>
+          <option {% if form_data.PaymentMethod == "Mailed check" %}selected{% endif %}>Mailed check</option>
+          <option {% if form_data.PaymentMethod == "Bank transfer (automatic)" %}selected{% endif %}>Bank transfer (automatic)</option>
+          <option {% if form_data.PaymentMethod == "Credit card (automatic)" %}selected{% endif %}>Credit card (automatic)</option>
+        </select>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="section-title">Tenure & Charges</div>
+
+      <div class="form-group">
+        <label>Tenure (Months Stayed)</label>
+        <input type="number" name="tenure" placeholder="Enter tenure" value="{{ form_data.tenure if form_data.tenure is defined }}">
+      </div>
+
+      <div class="form-group">
+        <label>Monthly Charges</label>
+        <input type="number" step="0.01" name="MonthlyCharges" placeholder="Enter Monthly Charges" value="{{ form_data.MonthlyCharges if form_data.MonthlyCharges is defined }}">
+      </div>
+
+      <div class="form-group">
+        <label>Total Charges</label>
+        <input type="number" step="0.01" name="TotalCharges" placeholder="Enter Total Charges" value="{{ form_data.TotalCharges if form_data.TotalCharges is defined }}">
+      </div>
+
+      <!-- Buttons -->
+      <button type="submit">Predict Churn</button>
+      <button type="button" onclick="
+          // This clears the form and hides the result box
+          document.querySelector('form').reset();
+          document.getElementById('result').style.display='none';
+          // Navigate back to clear the cached result in Flask (optional but good practice)
+          window.location.href = '/';
+      ">🔄 Refresh</button>
+      <button type="button" onclick="document.getElementById('infoModal').style.display = 'flex';">ℹ️ Info</button>
+
+      <div id="result" class="result-box" style="display: {% if prediction %}block{% else %}none{% endif %};">
+        Prediction Result: <span id="prediction-text">{{ prediction if prediction else '---' }}</span>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Modal for Info -->
+  <div id="infoModal">
+      <div id="infoModalContent">
+          <span id="closeModal" onclick="document.getElementById('infoModal').style.display = 'none';">&times;</span>
+          <h2>Model Information</h2>
+          <pre>
+📊 Column Mapping:
+ - Gender: Male -> 1, Female -> 0
+ - Senior Citizen: 0 or 1
+ - Partner: Yes -> 1, No -> 0
+ - Dependents: Yes -> 1, No -> 0
+ - Phone Service: Yes -> 1, No -> 0
+ - Multiple Lines: Yes -> 1, No -> 0, No phone service -> 0
+ - Internet Service: DSL -> 0, Fiber optic -> 1, No -> 0
+ - Online Security: Yes -> 1, No -> 0, No internet service -> 0
+ - Online Backup: Yes -> 1, No -> 0, No internet service -> 0
+ - Device Protection: Yes -> 1, No -> 0, No internet service -> 0
+ - Tech Support: Yes -> 1, No -> 0, No internet service -> 0
+ - Streaming TV: Yes -> 1, No -> 0, No internet service -> 0
+ - Streaming Movies: Yes -> 1, No -> 0, No internet service -> 0
+ - Contract: Month-to-month -> 0, One year -> 1, Two year -> 2
+ - Paperless Billing: Yes -> 1, No -> 0
+ - Payment Method: Credit card (automatic) -> 1, Electronic check -> 1, Mailed check -> 1, Bank transfer (automatic) -> 1
+ - Tenure: Numeric, in months
+ - Monthly Charges: Numeric, in USD
+ - Total Charges: Numeric, in USD
+
+🧠 Algorithm Info:
+ - Gradient Boosting Classifier (GBC) is used for predicting churn.
+ - GBC builds multiple decision trees sequentially, optimizing errors from previous trees.
+ - Known for high accuracy, robustness, and handling non-linear data effectively.
+
+⚙️ Techniques Used:
+ - Log transformation for numerical stability.
+ - Trimming for outlier removal.
+ - One-hot encoding & ordinal encoding for categorical variables.
+ - SMOTE for handling imbalanced dataset.
+ - StandardScaler for feature scaling.
+          </pre>
+      </div>
+  </div>
+
+  <script>
+    // Replace alert() with the custom modal logic
+    document.addEventListener('DOMContentLoaded', () => {
+        const infoButton = document.querySelector('button[onclick*="alert"]');
+        if (infoButton) {
+            infoButton.onclick = () => document.getElementById('infoModal').style.display = 'flex';
+        }
+    });
+  </script>
+</body>
+</html>

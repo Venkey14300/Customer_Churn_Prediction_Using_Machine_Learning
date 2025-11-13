@@ -1,0 +1,14 @@
+2025-11-13 17:41:39,144 - INFO - After trimming column names train : Index(['SeniorCitizen_log', 'tenure_log', 'MonthlyCharges_log',
+       'TotalCharges_log', 'SeniorCitizen_log_trim', 'tenure_log_trim',
+       'MonthlyCharges_log_trim', 'TotalCharges_log_trim'],
+      dtype='object')
+2025-11-13 17:41:39,144 - INFO - After trimming column names test: Index(['SeniorCitizen_log', 'tenure_log', 'MonthlyCharges_log',
+       'TotalCharges_log', 'SeniorCitizen_log_trim', 'tenure_log_trim',
+       'MonthlyCharges_log_trim', 'TotalCharges_log_trim'],
+      dtype='object')
+2025-11-13 17:41:39,145 - INFO - After trimming column names train : Index(['SeniorCitizen_log_trim', 'tenure_log_trim', 'MonthlyCharges_log_trim',
+       'TotalCharges_log_trim'],
+      dtype='object')
+2025-11-13 17:41:39,145 - INFO - After trimming column names test : Index(['SeniorCitizen_log_trim', 'tenure_log_trim', 'MonthlyCharges_log_trim',
+       'TotalCharges_log_trim'],
+      dtype='object')

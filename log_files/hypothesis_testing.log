@@ -1,0 +1,6 @@
+2025-11-13 17:41:39,150 - INFO - Dependent variables unique labels are : ['No' 'Yes']
+2025-11-13 17:41:39,153 - INFO - hypothesis testing : [[-3.66859882e-001  4.82946654e-179]
+ [ 2.04595164e-001  2.62407208e-054]
+ [-2.37058267e-001  8.25715660e-073]]
+2025-11-13 17:41:39,153 - INFO - Train Column names : Index(['tenure_log_trim', 'TotalCharges_log_trim'], dtype='object')
+2025-11-13 17:41:39,153 - INFO - Test Column names : Index(['tenure_log_trim', 'TotalCharges_log_trim'], dtype='object')

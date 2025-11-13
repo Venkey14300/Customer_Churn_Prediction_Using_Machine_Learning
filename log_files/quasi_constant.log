@@ -1,0 +1,5 @@
+2025-11-13 17:41:39,149 - INFO - Total columns : 3 -> without variance 0.1 : 3 -> with variance 0.1 : 0
+2025-11-13 17:41:39,149 - INFO - Variance 0.1 : names : Index(['tenure_log_trim', 'MonthlyCharges_log_trim', 'TotalCharges_log_trim'], dtype='object')
+2025-11-13 17:41:39,149 - INFO - Variance 0.1 : names : Index([], dtype='object')
+2025-11-13 17:41:39,149 - INFO - Train column names : Index(['tenure_log_trim', 'MonthlyCharges_log_trim', 'TotalCharges_log_trim'], dtype='object')
+2025-11-13 17:41:39,149 - INFO - Test column names : Index(['tenure_log_trim', 'MonthlyCharges_log_trim', 'TotalCharges_log_trim'], dtype='object')
