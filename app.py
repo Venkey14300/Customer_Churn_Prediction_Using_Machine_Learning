@@ -13,7 +13,7 @@ try:
     scaler = pickle.load(open("C:\\Users\\LENOVO\\Documents\\PROJECT_ALL_FILES\\Result\\standard_scaler.pkl", "rb"))
     feature_columns = pickle.load(open("C:\\Users\\LENOVO\\Documents\\PROJECT_ALL_FILES\\Result\\feature_columns.pkl", "rb"))
 except FileNotFoundError:
-    print("Warning: Model files not found at specified D:\\CHURN_PROJECT\\Result\\ paths.")
+    print("Warning: Model files not found at specified C:\\Users\\LENOVO\\Documents\\PROJECT_ALL_FILES\\Result\\ paths.")
     model, scaler, feature_columns = None, None, []
 
 # Cache prediction to show same result until refresh
