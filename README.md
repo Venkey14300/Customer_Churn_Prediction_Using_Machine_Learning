@@ -1,7 +1,7 @@
 # Customer_Churn_Prediction_Using_Machine_Learning
 ---
 
-# 📊 Telco Customer Churn Prediction Project
+# 📊 Customer Churn Prediction Project
 
 ## 📝 Project Description
 
