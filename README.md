@@ -102,7 +102,7 @@ The workflow covers **data preprocessing, feature engineering, outlier handling,
 * **Model Performance Visualization:**
 Below is the ROC–AUC curve representing the model’s ability to distinguish between churn and non-churn customers:
 
-
+![ROC–AUC Curve](images/roc_auc_curve.png)
 
 ---
 
@@ -140,7 +140,7 @@ Below is the ROC–AUC curve representing the model’s ability to distinguish b
 
 **Chavan Venkatesh** – Machine Learning & Data Science 
 
-**Contact:** - [[gmail](mailto:cvvenkey06@gmail.com)
-**Render Deployment link:** - [[link](https://customer-churn-prediction-using-machine-245y.onrender.com)]
+**Contact:** [cvvenkey06@gmail.com](mailto:cvvenkey06@gmail.com)  
+**Render Deployment link:** [Customer Churn Prediction App](https://customer-churn-prediction-using-machine-245y.onrender.com)
 
 ---
