@@ -95,8 +95,8 @@ The workflow covers **data preprocessing, feature engineering, outlier handling,
 
 * **Final Model:** Gradient Boosting Classifier
 
-  * Accuracy ≈ 79%
-  * ROC-AUC ≈ 0.80
+  * Accuracy = 79%
+  * ROC-AUC = 0.80
   * Balanced precision and recall after SMOTE
 
 * **Model Performance Visualization:**
