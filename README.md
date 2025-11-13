@@ -114,6 +114,18 @@ Below is the ROC–AUC curve representing the model’s ability to distinguish b
 
 ---
 
+### 🗂 Generated Files
+
+#### 🧰 Pickle Files
+- `churn_prediction_project.pkl` → Trained Gradient Boosting model  
+- `standard_scaler.pkl` → StandardScaler used for feature scaling  
+- `feature_columns.pkl` → List of final features used for training  
+
+#### 📜 Log Files
+- All log files are saved in the `log_files` folder  
+- Each script (main, transformation, training, etc.) generates its own log file for debugging and tracking  
+- Examples: `main.log`, `transformation.log`, `train_algo.log`, etc.
+
 ## 🧰 Tools & Libraries
 
 * **Python 3.9+**
